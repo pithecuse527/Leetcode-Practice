@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-
 # The isBadVersion API is already defined for you.
 # @param version, an integer
 # @return a bool
@@ -13,8 +12,10 @@ class Solution:
         """
         if n < 2: return n
         
-        st = 0          
-        fin = n - 1
+        # st needs to be started from index 1, 
+        # otherwise there will be a problem with (mid - 1)
+        st = 1          
+        fin = n
         
         # using binSearch algorithm
         while st <= fin:
