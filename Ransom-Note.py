@@ -13,6 +13,14 @@ class Solution:
             else:
                 return False
         return True
+    
+    def canConstruct2(self, ransomNote: str, magazine: str) -> bool:        # greedy but fast
+        for character in ransomNote:
+            if not character in magazine:
+                return False
+            else:
+                magazine = magazine.replace(character, "")
+        return True
         
     def returnMap(self, lst):
         maps = {}
