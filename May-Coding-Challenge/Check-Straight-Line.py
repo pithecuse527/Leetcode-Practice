@@ -1,23 +1,13 @@
 #!/usr/bin/python3
 
 class Solution:
-    def checkStraightLine(self, coordinates: List[List[int]]) -> bool:
-        a = None    # inclination for y=ax+b form
-        b = None    # y intercept for y=ax+b form
-        x_diff = None
-        y_diff = None
+    def checkStraightLine(self, coordinates: List[List[int]]) -> bool:   
+        x_diff = coordinates[0][0] - coordinates[1][0]
+        y_diff = coordinates[0][1] - coordinates[1][1]
+        a = 0 if not x_diff else y_diff / x_diff        # inclination for y=ax+b form
+        b = coordinates[0][1] - a*coordinates[0][0]     # y intercept for y=ax+b form
         
-        for i in range(len(coordinates) - 1):
-            x_diff = coordinates[i][0] - coordinates[i+1][0]
-            y_diff = coordinates[i][1] - coordinates[i+1][1]
-            
-            if not x_diff: continue
-            a = y_diff / x_diff
-            b = coordinates[i][1] - a*coordinates[i][0]
-            break
-        if not x_diff: return True     # which means vertical
-        
-        for i in range(len(coordinates)):
+        for i in range(2, len(coordinates)):
             if coordinates[i][1] != (a*coordinates[i][0] + b):
                 return False
         return True
