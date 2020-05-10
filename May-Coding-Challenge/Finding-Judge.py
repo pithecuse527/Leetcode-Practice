@@ -7,28 +7,21 @@ class Solution:
             return -1
         if N == 1:
             return 1
-        
-        # tuple is element
-        # first val of tuple is the number of input
-        # second val of tuple is the number of output
-        # incides indicate each person's number
-        graph_input_output = [[0,0]]       # 0'th index will not be used
-        
-        for i in range(1, N+1):
-            graph_input_output.append([0,0])
 
+        person_input_output = [0 for i in range(N+1)]       # 0'th index will not be used
+
+        # if output happens at least one time, that candidate is not suitable for the Judge
         for i in range(len(trust)):
             person_from = trust[i][0]
             person_to = trust[i][1]
-            graph_input_output[person_to][0] += 1         # increase input
-            graph_input_output[person_from][1] += 1       # increase output
-            
-        
-        for i in range(1, len(graph_input_output)):
-            if graph_input_output[i][0] == N-1 and graph_input_output[i][1] == 0:
+            person_input_output[person_to] += 1           # increase input
+            person_input_output[person_from] -= 1       # decrease input to make the person not a candidate
+
+        for i in range(1, len(person_input_output)):
+            if person_input_output[i] == N-1:
                 return i
         return -1
 
 if __name__ == "__main__":
     sol = Solution()
-    print(sol.findJudge(4, [[1,3],[1,4],[2,3],[2,4],[4,3]]))
+    print(sol.findJudge(2, [[1,2]]))
