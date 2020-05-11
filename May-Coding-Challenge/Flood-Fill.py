@@ -2,44 +2,32 @@
 
 class Solution:
     def floodFill(self, image, sr: int, sc: int, newColor: int):
+        if image[sr][sc] == newColor: return image
         target_color = image[sr][sc]        # get target color first
         
-        self.walker(image, sr, sc, target_color, newColor)
+        self.fill(image, sr, sc, target_color, newColor)
         return image
         
-    def walker(self, image, based_row: int, based_col: int, target_color: int, new_color: int):
-        # first base case (if the walker no needs to change the color, go back)
-        if image[based_row][based_col] != target_color: return
-    
+    def fill(self, image, based_row: int, based_col: int, target_color: int, new_color: int):
+        # more easy base case
+        # if the current based pixel is not target or current based pixel is outbound the given image
+        if based_row < 0 or based_row >= len(image) or based_col < 0 or based_col >= len(image[based_row]) or image[based_row][based_col] != target_color:
+            return
+       
+        # change to new color
         image[based_row][based_col] = new_color
         
-        #========== more base cases ==========#
+        # 1. going up
+        self.fill(image, based_row-1, based_col, target_color, new_color)
         
-        # going up and down need more conditions as it may not holds enough cols
-        # walker should not visit again to where walker comes from
+        # 2. going down
+        self.fill(image, based_row+1, based_col, target_color, new_color)
         
-        # 1. if walker can go up, then go ahead
-        if based_row - 1 >= 0 and len(image[based_row-1]) > based_col:
-            if image[based_row-1][based_col] != new_color:  # walker should not go up more than once
-                self.walker(image, based_row-1, based_col, target_color, new_color)
-            
-        # 2. if walker can go down, then go ahead
-        if based_row + 1 < len(image) and len(image[based_row+1]) > based_col:
-            if image[based_row+1][based_col] != new_color:  # walker should not go down more than once
-                self.walker(image, based_row+1, based_col, target_color, new_color)
-            
-        # 3. if walker can go left, then go ahead
-        if based_col - 1 >= 0:
-            if image[based_row][based_col-1] != new_color:  # walker should not go left more than once
-                self.walker(image, based_row, based_col-1, target_color, new_color)
+        # 3. going left
+        self.fill(image, based_row, based_col-1, target_color, new_color)
         
-        # 4. if walker can go right, then go ahead
-        if based_col + 1 < len(image[based_row]):
-            if image[based_row][based_col+1] != new_color:  # walker should not go right more than once
-                self.walker(image, based_row, based_col+1, target_color, new_color)
-                
-        #=================================#
-        
+        # 4. going right
+        self.fill(image, based_row, based_col+1, target_color, new_color)
 
 if __name__ == "__main__":
     sol = Solution()
