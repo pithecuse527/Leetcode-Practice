@@ -20,6 +20,5 @@ class Solution:
                 else: left = mid + 2
             else: return nums[mid]
             
-        mid = (left + right) // 2
-        return nums[mid]
+        return nums[left]
         
