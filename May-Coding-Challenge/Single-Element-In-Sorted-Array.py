@@ -3,14 +3,23 @@
 class Solution:
     def singleNonDuplicate(self, nums: List[int]) -> int:
         len_of_nums = len(nums)
-        
-        # base case
-        if len_of_nums % 2 == 0: return False
+        if len_of_nums % 2 == 0: return None
         if len_of_nums == 1: return nums[0]
         
-        # if not a base case,
-        for i in range(0, len_of_nums // 2 + 1, 2):
-            if nums[i] != nums[i+1]:
-                return nums[i]
-            if nums[len_of_nums-i-1] != nums[len_of_nums-i-2]:
-                return nums[len_of_nums-i-1]
+        left = 0
+        right = len_of_nums - 1
+        mid = 0
+        
+        while left < right:
+            mid = (left + right) // 2
+            if nums[mid-1] == nums[mid]:
+                if (left + mid + 1) % 2 != 0: right = mid - 2
+                else: left = mid + 1
+            elif nums[mid] == nums[mid+1]:
+                if (left + mid) % 2 != 0: right = mid - 1
+                else: left = mid + 2
+            else: return nums[mid]
+            
+        mid = (left + right) // 2
+        return nums[mid]
+        
