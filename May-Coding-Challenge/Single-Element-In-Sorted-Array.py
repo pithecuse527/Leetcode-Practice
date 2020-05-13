@@ -3,6 +3,8 @@
 class Solution:
     def singleNonDuplicate(self, nums: List[int]) -> int:
         len_of_nums = len(nums)
+        
+        # first base cases
         if len_of_nums % 2 == 0: return None
         if len_of_nums == 1: return nums[0]
         
@@ -10,6 +12,7 @@ class Solution:
         right = len_of_nums - 1
         mid = 0
         
+        # other than that,
         while left < right:
             mid = (left + right) // 2
             if nums[mid-1] == nums[mid]:
