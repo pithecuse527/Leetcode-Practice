@@ -1,29 +1,40 @@
 class Solution:
     def twoCitySchedCost(self, costs) -> int:
-        len_half = len(costs) // 2
+        self.sortHelper(costs)
         
-        sorted_by_A = self.sortHelper(costs, 0)  # sorted by city A
-        first_sum = 0
-        for i in range(len_half):
-            first_sum += costs[i][0]
-            first_sum += costs[i+len_half][1]
+        cnt_A = 0
+        cnt_B = 0
+        costs_len = len(costs)
+        sum_ = 0
         
-        sorted_by_B = self.sortHelper(costs, 1)  # sorted by city B
-        second_sum = 0
-        for i in range(len_half):
-            second_sum += costs[i][1]
-            second_sum += costs[i+len_half][0]
-            
-        return min(first_sum, second_sum)
+        for i in range(costs_len):
+            if costs[i][0] < costs[i][1]:
+                if cnt_A < costs_len // 2:
+                    cnt_A += 1
+                    sum_ += costs[i][0]
+                else:
+                    cnt_B += 1
+                    sum_ += costs[i][1]
+            else:
+                if cnt_B < costs_len // 2:
+                    cnt_B += 1
+                    sum_ += costs[i][1]
+                else:
+                    cnt_A += 1
+                    sum_ += costs[i][0]
+        return sum_
         
     
-    def sortHelper(self, costs, city):
-        for i in range(len(costs)):
-            min_idx = i
-            for j in range(i+1, len(costs)):
-                if costs[min_idx][city] > costs[j][city]: min_idx = j
-            costs[i], costs[min_idx] = costs[min_idx], costs[i]
-        return costs
+    def sortHelper(self, costs):
+        # sort by absolute difference
+        tmp_abs_bucket = [abs(costs[i][0] - costs[i][1]) for i in range(len(costs))]
+        for i in range(len(tmp_abs_bucket) - 1):
+            max_ = i
+            for j in range(i + 1, len(tmp_abs_bucket)):
+                if tmp_abs_bucket[max_] < tmp_abs_bucket[j]: max_ = j
+            tmp_abs_bucket[max_], tmp_abs_bucket[i] = tmp_abs_bucket[i], tmp_abs_bucket[max_]       
+            costs[max_], costs[i] = costs[i], costs[max_]       # the list that really needs to be sorted is costs
+        # print(tmp_abs_bucket)
         
-a = Solution()
-a.twoCitySchedCost([[259,770],[448,54],[926,667],[184,139],[840,118],[577,469]])
+# a = Solution()
+# print(a.twoCitySchedCost([[259,770],[448,54],[926,667],[184,139],[840,118],[577,469]]))
