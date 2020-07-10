@@ -1,6 +1,5 @@
 class Solution:
     def islandPerimeter(self, grid):
-
         # constants and variables for vertices (use NA constant to make more simple)
         VISITED = 1
         UNVISITED = 0
@@ -46,24 +45,24 @@ class Solution:
                 4. up
             '''
             # if runner can go left
-            if running_j > 0 and vertices[running_i][running_j - 1] == (LAND_VERTEX, UNVISITED):
+            if running_j > 0 and vertices[running_i][running_j - 1] == UNVISITED:
+                vertices[running_i][running_j - 1] = VISITED
                 running_j -= 1
-                vertices[running_i][running_j - 1] = (1, VISITED)
                 edges += 1
             # if runner can go down
-            elif running_i < vertice_of_height - 1 and vertices[running_i + 1][running_j] == (LAND_VERTEX, UNVISITED):
+            elif running_i < vertice_of_height - 1 and vertices[running_i + 1][running_j] == UNVISITED:
+                vertices[running_i + 1][running_j] = VISITED
                 running_i += 1
-                vertices[running_i + 1][running_j] = (1, VISITED)
                 edges += 1
             # if runner can go right
-            elif running_j < vertice_of_width - 1 and vertices[running_i][running_j + 1] == (LAND_VERTEX, UNVISITED):
+            elif running_j < vertice_of_width - 1 and vertices[running_i][running_j + 1] == UNVISITED:
+                vertices[running_i][running_j + 1] = VISITED
                 running_j += 1
-                vertices[running_i][running_j + 1] = (1, VISITED)
                 edges += 1
             # if runner can go up
-            elif running_i > 0 and vertices[running_i - 1][running_j] == (LAND_VERTEX, UNVISITED):
+            elif running_i > 0 and vertices[running_i - 1][running_j] == UNVISITED:
+                vertices[running_i - 1][running_j] = VISITED
                 running_i -= 1
-                vertices[running_i - 1][running_j] = (1, VISITED)
                 edges += 1
 
             # if runner reaches to the starting vertex again
