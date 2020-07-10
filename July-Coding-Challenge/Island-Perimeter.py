@@ -1,12 +1,10 @@
 class Solution:
     def islandPerimeter(self, grid):
 
-        # constants and variables for vertices
+        # constants and variables for vertices (use NA constant to make more simple)
         VISITED = 1
         UNVISITED = 0
-        LAND_VERTEX = 1
-        OCEAN_VERTEX = 0
-        NOTHING = -1
+        NA = -1
         vertice_of_width = len(grid[0]) + 1
         vertice_of_height = len(grid) + 1
 
@@ -14,26 +12,25 @@ class Solution:
         edges = 0
 
         # init the vertices
-        vertices = [[(OCEAN_VERTEX, UNVISITED)] * vertice_of_width] * vertice_of_height
+        vertices = [[NA] * vertice_of_width for i in range(vertice_of_height)]  # solve the tuple address problem
         for i in range(len(grid)):
             for j in range(len(grid[i])):
                 if grid[i][j] == 1:     # if the grid is a land, change the vertex to LAND_VERTEX
-                    vertices[i][j] = tuple([LAND_VERTEX, UNVISITED])    # assign a new tuple
-                    vertices[i][j+1] = tuple([LAND_VERTEX, UNVISITED])
-                    vertices[i+1][j] = tuple([LAND_VERTEX, UNVISITED])
-                    vertices[i+1][j+1] = tuple([LAND_VERTEX, UNVISITED])
+                    vertices[i][j] = UNVISITED    # change NA to UNVISITED land vertex
+                    vertices[i][j+1] = UNVISITED
+                    vertices[i+1][j] = UNVISITED
+                    vertices[i+1][j+1] = UNVISITED
 
         # init for DFS (finding the strting vertex)
-        starting_vertex = (0, 0)
+        starting_vertex = None
         for i in range(len(vertices)):
             found_starting_vertex = False
             for j in range(len(vertices[i])):
-                if vertices[i][j] == (LAND_VERTEX, UNVISITED):
+                if vertices[i][j] == UNVISITED:
                     starting_vertex = (i, j)
                     found_starting_vertex = True        # break twice if the starting_vertex is found
                     break
             if found_starting_vertex: break
-        print(vertices)
 
         # # DFS
         # running_i = starting_vertex[0]    # runner of height
