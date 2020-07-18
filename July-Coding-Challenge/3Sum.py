@@ -1,22 +1,26 @@
-def threeSum(self, nums):
-    dict_of_nums = {num : nums.count(num) for num in nums}      # create hash map first
+def threeSum(nums):
+    nums_len = len(nums)
     to_return = []
+    nums.sort()
 
-    # for x in dict_of_nums:
-    #     if dict_of_nums[x]:
-    #         dict_of_nums[x] -= 1
-    #         for y in dict_of_nums:
-    #             if dict_of_nums[y]:
-    #                 dict_of_nums[y] -= 1
-    #                 if -(x+y) in dict_of_nums: to_return.append()
-    #
-    #             dict_of_nums[y] += 1
-    #         dict_of_nums[key] += 1
+    for i, a in enumerate(nums):
+        if i > 0 and a == nums[i - 1]:
+            continue
 
-    # todo1: only look forward (lst and dict)
-    for i in range(len(nums) - 1):
-        x = nums[i]
-        if dict_of_nums[x]:
-            dict_of_nums[x] -= 1
-            tmp_nums = [i + 1:]
-            for j in tmp_nums:
+        l, r = i + 1, nums_len - 1
+        while l < r:
+            three_sum = a + nums[l] + nums[r]
+            if three_sum > 0:
+                r -= 1
+            elif three_sum < 0:
+                l += 1
+            else:
+                to_return.append([a, nums[l], nums[r]])
+                l += 1
+                while nums[l] == nums[l - 1] and l < r:
+                    l += 1
+    return to_return
+
+
+
+print(threeSum([-1, 0, 1, 2, -1, -4]))
